@@ -4,6 +4,8 @@ import torch
 import pytorch_lightning as pl
 from six.moves import cPickle
 from evoaug import evoaug, augment
+
+sys.path.append('../../src')
 import utils
 from model_zoo import DeepSTARR
 

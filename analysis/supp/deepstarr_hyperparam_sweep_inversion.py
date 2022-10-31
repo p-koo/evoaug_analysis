@@ -3,8 +3,10 @@ import numpy as np
 import torch
 import pytorch_lightning as pl
 from six.moves import cPickle
-import evoaug
-from evoaug import utils, augment, robust_model
+from evoaug import evoaug, augment
+
+sys.path.append('../../src')
+import utils
 from model_zoo import DeepSTARR
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -45,7 +47,7 @@ for n, invert_max in enumerate(invert_max_range):
             #augment.RandomTranslocation(shift_min=0, shift_max=30),
             #augment.RandomNoise(noise_mean=0, noise_std=noise_std),
         ]
-        robust_deepstarr = robust_model.RobustModel(deepstarr,
+        robust_deepstarr = evoaug.RobustModel(deepstarr,
                                        criterion=loss,
                                        optimizer=optimizer_dict, 
                                        augment_list=augment_list,
@@ -67,7 +69,7 @@ for n, invert_max in enumerate(invert_max_range):
         trainer.fit(robust_deepstarr, datamodule=data_module)
 
         # load checkpoint for model with best validation performance
-        robust_deepstarr = robust_model.load_model_from_checkpoint(robust_deepstarr, ckpt_aug_path+'.ckpt')
+        robust_deepstarr = evoaug.load_model_from_checkpoint(robust_deepstarr, ckpt_aug_path+'.ckpt')
 
         # evaluate best model
         pred = utils.get_predictions(robust_deepstarr, data_module.x_valid, batch_size=100)
@@ -91,7 +93,7 @@ for n, invert_max in enumerate(invert_max_range):
         trainer.fit(robust_deepstarr, datamodule=data_module)
 
         # load checkpoint for model with best validation performance
-        robust_deepstarr = robust_model.load_model_from_checkpoint(robust_deepstarr, ckpt_finetune_path+'.ckpt')
+        robust_deepstarr = evoaug.load_model_from_checkpoint(robust_deepstarr, ckpt_finetune_path+'.ckpt')
 
         # evaluate best model
         pred = utils.get_predictions(robust_deepstarr, data_module.x_valid, batch_size=100)

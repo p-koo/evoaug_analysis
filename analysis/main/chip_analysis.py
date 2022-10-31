@@ -3,7 +3,10 @@ import numpy as np
 import torch
 import pytorch_lightning as pl
 from six.moves import cPickle
-from evoaug import robust_model, moana, utils
+from evoaug import evoaug, augment
+
+sys.path.append('../../src')
+import utils
 from model_zoo import CNN
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -42,7 +45,7 @@ for expt_name in expt_names:
             augment.RandomMutation(mutate_frac=0.05),
         ]
 
-        robust_cnn = robust_model.RobustModel(cnn,
+        robust_cnn = evoaug.RobustModel(cnn,
                                        criterion=loss,
                                        optimizer=optimizer_dict, 
                                        augment_list=augment_list,
@@ -63,7 +66,7 @@ for expt_name in expt_names:
         trainer.fit(robust_cnn, datamodule=data_module)
 
         # load checkpoint for model with best validation performance
-        robust_cnn = robust_model.load_model_from_checkpoint(robust_cnn, ckpt_aug_path+'.ckpt')
+        robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, ckpt_aug_path+'.ckpt')
 
         # evaluate best model
         pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
@@ -90,7 +93,7 @@ for expt_name in expt_names:
         trainer.fit(robust_cnn, datamodule=data_module)
 
         # load checkpoint for model with best validation performance
-        robust_cnn = robust_model.load_model_from_checkpoint(robust_cnn, ckpt_finetune_path+'.ckpt')
+        robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, ckpt_finetune_path+'.ckpt')
 
         # evaluate best model
         pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
