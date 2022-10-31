@@ -10,14 +10,6 @@ For questions, email: koo@cshl.edu
 
 
 
-#### Install:
-
-```
-pip install evoaug
-pip install git+https://github.com/p-koo/augmentation_project
-```
-
-
 #### Dependencies:
 
 ```
