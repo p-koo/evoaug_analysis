@@ -10,6 +10,11 @@ For questions, email: koo@cshl.edu
 
 
 
+#### Install:
+```
+pip install git+https://github.com/p-koo/evoaug_analysis.git
+```
+
 #### Dependencies:
 
 ```
