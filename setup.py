@@ -7,6 +7,5 @@ setup(
     packages=find_packages(),
     description = "Code to analyze genomics datasets with deep learning models trained with evolution-inspired data augmentations. ",
     python_requires=">=3.6",
-    install_requires=[
-        ],
+    install_requires=[],
 )
