@@ -17,7 +17,7 @@ data_path = '../data'
 filepath = os.path.join(data_path, expt_name + '_data.h5')
 data_module = evoaug.utils.H5DataModule(filepath, batch_size=100, lower_case=False)
 
-output_dir = '../results/deepstarr'
+output_dir = '../results/model_weights/deepstarr'
 utils.make_directory(output_dir)
 
 num_trials = 5 
@@ -72,11 +72,11 @@ for trial in range(num_trials):
 
 
     ## ---------- Fine tune analysis ----------
-
-    # Load best EvoAug model from checkpoint
-    robust_deepstarr.finetune = True
-    robust_deepstarr.optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, robust_deepstarr.model.parameters()),
+    
+    # change to fine-tune mode
+    finetune_optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, robust_deepstarr.model.parameters()),
                                                lr=0.0001, weight_decay=1e-6)
+    robust_deepstarr.finetune_mode(optimizer=finetune_optimizer)
 
     # set up trainer for fine-tuning
     ckpt_finetune_path = expt_name+"_finetune_"+str(trial)

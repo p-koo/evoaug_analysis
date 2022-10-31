@@ -18,7 +18,7 @@ filepath = os.path.join(data_path, expt_name + '_data.h5')
 data_module = evoaug.utils.H5DataModule(filepath, batch_size=100, lower_case=False)
 
 
-output_dir = '../results/basset'
+output_dir = '../results/model_weights/basset'
 utils.make_directory(output_dir)
 
 num_trials = 5 
@@ -36,12 +36,10 @@ for trial in range(num_trials):
                                                patience=5, 
                                                monitor='val_loss')
 
-    augment_list = [
-    ]
     robust_basset = evoaug.RobustModel(basset,
                                    criterion=loss,
                                    optimizer=optimizer_dict, 
-                                   augment_list=augment_list)
+                                   augment_list=[])
 
     # create pytorch lightning trainer
     ckpt_aug_path = expt_name+"_baseline_"+str(trial)

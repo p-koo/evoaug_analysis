@@ -17,6 +17,7 @@ data_path = '../data'
 filepath = os.path.join(data_path, expt_name + '_data.h5')
 data_module = utils.H5DataModule(filepath, batch_size=100, lower_case=False)
 
+expt_name += '_ins'
 
 output_dir = '../results/deepSTARR_hyperparm_sweep'
 utils.make_directory(output_dir)
@@ -76,10 +77,10 @@ for n, insert_max in enumerate(insert_max_range):
         pred = utils.get_predictions(robust_deepstarr, data_module.x_valid, batch_size=100)
         aug_results = utils.evaluate_model(data_module.y_valid, pred, task='regression')   # task is 'binary' or 'regression'
 
-        # Load best EvoAug model from checkpoint
-        robust_deepstarr.finetune = True
-        robust_deepstarr.optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, robust_deepstarr.model.parameters()),
+        # change to fine-tune mode
+        finetune_optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, robust_deepstarr.model.parameters()),
                                                    lr=0.0001, weight_decay=1e-6)
+        robust_deepstarr.finetune_mode(optimizer=finetune_optimizer)
 
         # set up trainer for fine-tuning
         ckpt_finetune_path = expt_name+"_finetune_"+str(n)+'_'+str(trial)

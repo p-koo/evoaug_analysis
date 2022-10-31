@@ -17,6 +17,7 @@ data_path = '../data'
 filepath = os.path.join(data_path, expt_name + '_data.h5')
 data_module = evoaug.utils.H5DataModule(filepath, batch_size=100, lower_case=False)
 
+expt_name += '_tra'
 
 output_dir = '../results/basset_hyperparm_sweep'
 utils.make_directory(output_dir)
@@ -75,11 +76,11 @@ for n, shift_max in enumerate(shift_max_range):
         pred = utils.get_predictions(robust_basset, data_module.x_valid, batch_size=100)
         aug_results = utils.evaluate_model(data_module.y_valid, pred, task='binary')   # task is 'binary' or 'binary'
 
-        # Load best EvoAug model from checkpoint
-        robust_basset.finetune = True
-        robust_basset.optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, robust_basset.model.parameters()),
+        # change to fine-tune mode
+        finetune_optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, robust_basset.model.parameters()),
                                                    lr=0.0001, weight_decay=1e-6)
-
+        robust_basset.finetune_mode(optimizer=finetune_optimizer)
+        
         # set up trainer for fine-tuning
         ckpt_finetune_path = expt_name+"_finetune_"+str(n)+'_'+str(trial)
         callback_topmodel = pl.callbacks.ModelCheckpoint(monitor='val_loss', 

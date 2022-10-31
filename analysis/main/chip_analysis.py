@@ -11,7 +11,7 @@ from model_zoo import CNN
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-output_dir = '../results/chipseq'
+output_dir = '../results/model_weights/chipseq'
 utils.make_directory(output_dir)
 
 
@@ -75,10 +75,10 @@ for expt_name in expt_names:
 
         ## ---------- Fine tune analysis ----------
 
-        # Load best EvoAug model from checkpoint
-        robust_cnn.finetune = True
-        robust_cnn.optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, robust_cnn.model.parameters()),
+        # change to fine-tune mode
+        finetune_optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, robust_cnn.model.parameters()),
                                                    lr=0.0001, weight_decay=1e-6)
+        robust_cnn.finetune_mode(optimizer=finetune_optimizer)
 
         # set up trainer for fine-tuning
         ckpt_finetune_path = expt_name+"_finetune_"+str(trial)
