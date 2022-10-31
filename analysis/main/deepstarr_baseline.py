@@ -5,7 +5,7 @@ import pytorch_lightning as pl
 from six.moves import cPickle
 from evoaug import evoaug
 
-sys.path.append('../../src')
+sys.path.append('../../evoaug_analysis')
 import utils
 from model_zoo import DeepSTARR
 

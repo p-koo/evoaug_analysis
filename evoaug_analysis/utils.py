@@ -128,6 +128,7 @@ class H5DataModule(pl.LightningDataModule):
             self.x = 'x'
             self.y = 'y'
         self.transpose = transpose
+        self.downsample = downsample
         self.setup(stage)
 
     def setup(self, stage=None):
