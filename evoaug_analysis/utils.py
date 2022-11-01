@@ -142,8 +142,8 @@ class H5DataModule(pl.LightningDataModule):
                     x_train = np.transpose(x_train, (0,2,1))
                     x_valid = np.transpose(x_valid, (0,2,1))
                 if self.downsample:
-                    x_train = x_train[:downsample]
-                    y_train = y_train[:downsample]
+                    x_train = x_train[:self.downsample]
+                    y_train = y_train[:self.downsample]
                 self.x_train = torch.from_numpy(x_train)
                 self.y_train = torch.from_numpy(y_train)
                 self.x_valid = torch.from_numpy(x_valid)
