@@ -155,7 +155,7 @@ for expt_name in ['CTCF', 'ATF2']:
 
             # load checkpoint for model with best validation performance
             model_path = os.path.join(output_dir, ckpt_path+'.ckpt')
-            robust_cnn = robust_model.load_model_from_checkpoint(robust_cnn, model_path)
+            robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, model_path)
 
             # evaluate best model
             pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
