@@ -55,7 +55,7 @@ for expt_name in ['CTCF', 'ATF2']:
             
             augment_list = [
                 augment.RandomRC(rc_prob=0.5),
-                augment.RandomDeletion(delete_min=0, delete_max=20),
+                augment.RandomDeletion(delete_min=0, delete_max=30),
                 augment.RandomInsertion(insert_min=0, insert_max=20),
                 augment.RandomTranslocation(shift_min=0, shift_max=20),
                 augment.RandomNoise(noise_mean=0, noise_std=0.2),
@@ -82,7 +82,8 @@ for expt_name in ['CTCF', 'ATF2']:
             trainer.fit(robust_cnn, datamodule=data_module)
 
             # load checkpoint for model with best validation performance
-            robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, ckpt_aug_path+'.ckpt')
+            model_path = os.path.join(output_dir, ckpt_aug_path+'.ckpt')
+            robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, model_path)
 
             # evaluate best model
             pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
@@ -111,7 +112,8 @@ for expt_name in ['CTCF', 'ATF2']:
             trainer.fit(robust_cnn, datamodule=data_module)
 
             # load checkpoint for model with best validation performance
-            robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, ckpt_finetune_path+'.ckpt')
+            model_path = os.path.join(output_dir, ckpt_finetune_path+'.ckpt')
+            robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, model_path)
 
             # evaluate best model
             pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
@@ -139,11 +141,11 @@ for expt_name in ['CTCF', 'ATF2']:
                                            augment_list=[])
 
             # create pytorch lightning trainer
-            ckpt_aug_path = expt_name+"_baseline_"+str(downsample)+'_'+str(trial)
+            ckpt_path = expt_name+"_baseline_"+str(downsample)+'_'+str(trial)
             callback_topmodel = pl.callbacks.ModelCheckpoint(monitor='val_loss', 
                                                              save_top_k=1, 
                                                              dirpath=output_dir, 
-                                                             filename=ckpt_aug_path)
+                                                             filename=ckpt_path)
             callback_es = pl.callbacks.early_stopping.EarlyStopping(monitor='val_loss', patience=10)
             trainer = pl.Trainer(gpus=1, max_epochs=100, auto_select_gpus=True, logger=None, 
                                 callbacks=[callback_es, callback_topmodel])
@@ -152,7 +154,8 @@ for expt_name in ['CTCF', 'ATF2']:
             trainer.fit(robust_cnn, datamodule=data_module)
 
             # load checkpoint for model with best validation performance
-            robust_cnn = robust_model.load_model_from_checkpoint(robust_cnn, ckpt_aug_path+'.ckpt')
+            model_path = os.path.join(output_dir, ckpt_path+'.ckpt')
+            robust_cnn = robust_model.load_model_from_checkpoint(robust_cnn, model_path)
 
             # evaluate best model
             pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
