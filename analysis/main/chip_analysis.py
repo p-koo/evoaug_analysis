@@ -66,7 +66,8 @@ for expt_name in expt_names:
         trainer.fit(robust_cnn, datamodule=data_module)
 
         # load checkpoint for model with best validation performance
-        robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, ckpt_aug_path+'.ckpt')
+        model_path = os.path.join(output_dir, ckpt_aug_path+'.ckpt')
+        robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, model_path)
 
         # evaluate best model
         pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
@@ -93,7 +94,8 @@ for expt_name in expt_names:
         trainer.fit(robust_cnn, datamodule=data_module)
 
         # load checkpoint for model with best validation performance
-        robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, ckpt_finetune_path+'.ckpt')
+        model_path = os.path.join(output_dir, ckpt_finetune_path+'.ckpt')
+        robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, model_path)
 
         # evaluate best model
         pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)

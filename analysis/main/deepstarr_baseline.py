@@ -42,11 +42,11 @@ for trial in range(num_trials):
                                    augment_list=[])
 
     # create pytorch lightning trainer
-    ckpt_aug_path = expt_name+"_baseline_"+str(trial)
+    ckpt_path = expt_name+"_baseline_"+str(trial)
     callback_topmodel = pl.callbacks.ModelCheckpoint(monitor='val_loss', 
                                                      save_top_k=1, 
                                                      dirpath=output_dir, 
-                                                     filename=ckpt_aug_path)
+                                                     filename=ckpt_path)
     callback_es = pl.callbacks.early_stopping.EarlyStopping(monitor='val_loss', patience=10)
     trainer = pl.Trainer(gpus=1, max_epochs=100, auto_select_gpus=True, logger=None, 
                         callbacks=[callback_es, callback_topmodel])
@@ -55,7 +55,8 @@ for trial in range(num_trials):
     trainer.fit(robust_deepstarr, datamodule=data_module)
 
     # load checkpoint for model with best validation performance
-    robust_deepstarr = evoaug.load_model_from_checkpoint(robust_deepstarr, ckpt_aug_path+'.ckpt')
+    model_path = os.path.join(output_dir, ckpt_path+'.ckpt')
+    robust_deepstarr = evoaug.load_model_from_checkpoint(robust_deepstarr, model_path)
 
     # evaluate best model
     pred = utils.get_predictions(robust_deepstarr, data_module.x_test, batch_size=100)

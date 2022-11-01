@@ -64,7 +64,8 @@ for trial in range(num_trials):
     trainer.fit(robust_deepstarr, datamodule=data_module)
 
     # load checkpoint for model with best validation performance
-    robust_deepstarr = evoaug.load_model_from_checkpoint(robust_deepstarr, ckpt_aug_path+'.ckpt')
+    model_path = os.path.join(output_dir, ckpt_aug_path+'.ckpt')
+    robust_deepstarr = evoaug.load_model_from_checkpoint(robust_deepstarr, model_path)
 
     # evaluate best model
     pred = utils.get_predictions(robust_deepstarr, data_module.x_test, batch_size=100)
@@ -91,7 +92,8 @@ for trial in range(num_trials):
     trainer.fit(robust_deepstarr, datamodule=data_module)
 
     # load checkpoint for model with best validation performance
-    robust_deepstarr = evoaug.load_model_from_checkpoint(robust_deepstarr, ckpt_finetune_path+'.ckpt')
+    model_path = os.path.join(output_dir, ckpt_finetune_path+'.ckpt')
+    robust_deepstarr = evoaug.load_model_from_checkpoint(robust_deepstarr, model_path)
 
     # evaluate best model
     pred = utils.get_predictions(robust_deepstarr, data_module.x_test, batch_size=100)

@@ -44,11 +44,11 @@ for expt_name in expt_names:
                                        augment_list=[])
 
         # create pytorch lightning trainer
-        ckpt_aug_path = expt_name+"_baseline_"+str(trial)
+        ckpt_path = expt_name+"_baseline_"+str(trial)
         callback_topmodel = pl.callbacks.ModelCheckpoint(monitor='val_loss', 
                                                          save_top_k=1, 
                                                          dirpath=output_dir, 
-                                                         filename=ckpt_aug_path)
+                                                         filename=ckpt_path)
         callback_es = pl.callbacks.early_stopping.EarlyStopping(monitor='val_loss', patience=10)
         trainer = pl.Trainer(gpus=1, max_epochs=100, auto_select_gpus=True, logger=None, 
                             callbacks=[callback_es, callback_topmodel])
@@ -57,7 +57,8 @@ for expt_name in expt_names:
         trainer.fit(robust_cnn, datamodule=data_module)
 
         # load checkpoint for model with best validation performance
-        robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, ckpt_aug_path+'.ckpt')
+        model_path = os.path.join(output_dir, ckpt_path+'.ckpt')
+        robust_cnn = evoaug.load_model_from_checkpoint(robust_cnn, model_path)
 
         # evaluate best model
         pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
