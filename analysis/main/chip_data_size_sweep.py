@@ -20,7 +20,7 @@ num_trials = 5
 for expt_name in ['CTCF', 'ATF2']:
 
     # loop over downsample sizes
-    for downsample in [250, 500, 750, 1000, 2500, 5000]
+    for downsample in [250, 500, 750, 1000, 2500, 5000]:
         print("downsample: %d"%(downsample))
 
         # load data
