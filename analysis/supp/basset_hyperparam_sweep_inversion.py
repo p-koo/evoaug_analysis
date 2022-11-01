@@ -15,7 +15,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 expt_name = 'Basset'
 data_path = '../data'
 filepath = os.path.join(data_path, expt_name + '_data.h5')
-data_module = evoaug.utils.H5DataModule(filepath, batch_size=100, lower_case=False)
+data_module = utils.H5DataModule(filepath, batch_size=100, lower_case=False)
 
 expt_name += '_inv'
 
