@@ -60,13 +60,13 @@ def calculate_mse(y_true, y_score):
 def calculate_pearsonr(y_true, y_score):
     vals = []
     for class_index in range(y_true.shape[-1]):
-        vals.append( stats.pearsonr(y_true[:,class_index], y_score[:,class_index]) )    
+        vals.append( stats.pearsonr(y_true[:,class_index], y_score[:,class_index])[0] )    
     return np.array(vals)
     
 def calculate_spearmanr(y_true, y_score):
     vals = []
     for class_index in range(y_true.shape[-1]):
-        vals.append( stats.spearmanr(y_true[:,class_index], y_score[:,class_index]) )    
+        vals.append( stats.spearmanr(y_true[:,class_index], y_score[:,class_index])[0] )    
     return np.array(vals)
 
 
