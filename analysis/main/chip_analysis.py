@@ -107,8 +107,8 @@ for expt_name in expt_names:
 
     # save results
     with open(os.path.join(output_dir, expt_name+'_analysis.pickle'), 'wb') as fout:
-        cPickle.dump(all_finetune_results, fout)
-        cPickle.dump(all_aug_results, fout)
+        cPickle.dump(trial_finetune_results, fout)
+        cPickle.dump(trial_aug_results, fout)
 
 
 
