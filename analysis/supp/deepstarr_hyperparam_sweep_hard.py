@@ -107,8 +107,8 @@ for n in hard_sweep:
         trial_aug_results.append(aug_results)
         trial_finetune_results.append(finetune_results)
 
-    all_aug_results[noise_std] = trial_aug_results
-    all_finetune_results[noise_std] = trial_finetune_results
+    all_aug_results[n] = trial_aug_results
+    all_finetune_results[n] = trial_finetune_results
 
 
 with open(os.path.join(output_dir, 'hard_sweep.pickle'), 'wb') as fout:
