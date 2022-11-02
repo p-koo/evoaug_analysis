@@ -32,11 +32,11 @@ for expt_name in ['CTCF', 'ATF2']:
         results = {}
         results['aug'] = {}
         results['finetune'] = {}
-        results['supervised'] = {}
+        results['standard'] = {}
         for metric in ['auroc', 'aupr']:
             results['aug'][metric] = []
             results['finetune'][metric] = []
-            results['supervised'][metric] = []
+            results['standard'][metric] = []
 
         # loop over trials
         for trial in range(num_trials):
