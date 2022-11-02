@@ -74,9 +74,17 @@ for trial in range(num_trials):
 
     ## ---------- Visualize first-layer filters and save sequence logos ----------
     
-    # Get feature maps of first convolutional layer after activation
+    # Pad x_test_subset with random sequences of length insert_max to account for insertion augs
     x_test_subset = data_module.x_test[:10000]
-    fmaps = utils.get_fmaps(robust_basset, x_test_subset)
+    insert_max = augment_list[2].insert_max
+    N_test, A, L = x_test_subset.shape
+    a = torch.eye(A)
+    p = torch.tensor([1/A for _ in range(A)])
+    padding = torch.stack([a[p.multinomial(insert_max, replacement=True)].transpose(0,1) for _ in range(N_test)]).to(x_test_subset.device)
+    x_test_subset_padded = torch.cat( [x_test_subset, padding.to(x_test_subset.device)], dim=2 )
+    
+    # Get feature maps of first convolutional layer after activation
+    fmaps = utils.get_fmaps(robust_basset, x_test_subset_padded)
 
     # Generate PWMs from feature maps (transposed, to align with TF implementation)
     ppm = moana.activation_pwm( fmaps, x_test_subset.numpy().transpose([0,2,1]), window=21)
@@ -126,9 +134,17 @@ for trial in range(num_trials):
 
     ## ---------- Visualize first-layer filters and save sequence logos ----------
 
-    # Get feature maps of first convolutional layer after activation
+    # Pad x_test_subset with random sequences of length insert_max to account for insertion augs
     x_test_subset = data_module.x_test[:10000]
-    fmaps = utils.get_fmaps(robust_basset, x_test_subset)
+    insert_max = augment_list[2].insert_max
+    N_test, A, L = x_test_subset.shape
+    a = torch.eye(A)
+    p = torch.tensor([1/A for _ in range(A)])
+    padding = torch.stack([a[p.multinomial(insert_max, replacement=True)].transpose(0,1) for _ in range(N_test)]).to(x_test_subset.device)
+    x_test_subset_padded = torch.cat( [x_test_subset, padding.to(x_test_subset.device)], dim=2 )
+    
+    # Get feature maps of first convolutional layer after activation
+    fmaps = utils.get_fmaps(robust_basset, x_test_subset_padded)
 
     # Generate PWMs from feature maps (transposed, to align with TF implementation)
     ppm = moana.activation_pwm( fmaps, x_test_subset.numpy().transpose([0,2,1]), window=21)
