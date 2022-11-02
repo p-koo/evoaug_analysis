@@ -27,7 +27,7 @@ trial_finetune_results = []
 for trial in range(num_trials):
 
     deepstarr = DeepSTARR(data_module.y_train.shape[-1]).to(device)
-    loss = torch.nn.BCELoss()
+    loss = torch.nn.MSELoss()
     optimizer_dict = utils.configure_optimizer(deepstarr, 
                                                lr=0.001, 
                                                weight_decay=1e-6, 
@@ -69,7 +69,7 @@ for trial in range(num_trials):
 
     # evaluate best model
     pred = utils.get_predictions(robust_deepstarr, data_module.x_test, batch_size=100)
-    aug_results = utils.evaluate_model(data_module.y_test, pred, task='binary')   
+    aug_results = utils.evaluate_model(data_module.y_test, pred, task='regression')   
 
 
     ## ---------- Fine tune analysis ----------
@@ -97,7 +97,7 @@ for trial in range(num_trials):
 
     # evaluate best model
     pred = utils.get_predictions(robust_deepstarr, data_module.x_test, batch_size=100)
-    finetune_results = utils.evaluate_model(data_module.y_test, pred, task='binary') 
+    finetune_results = utils.evaluate_model(data_module.y_test, pred, task='regression') 
 
     # store results 
     trial_aug_results.append(aug_results)
