@@ -11,7 +11,7 @@ from model_zoo import CNN
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-output_dir = '../results/model_weights/chipseq_sweep'
+output_dir = '../results/chipseq_sweep'
 utils.make_directory(output_dir)
 
 
@@ -20,7 +20,7 @@ num_trials = 5
 for expt_name in ['CTCF', 'ATF2']:
 
     # loop over downsample sizes
-    for downsample in [250, 500, 750, 1000, 2500, 5000]:
+    for downsample in [100, 250, 350, 500, 750, 1000, 2500, 5000, 7500, 10000]:
         print("downsample: %d"%(downsample))
 
         # load data
@@ -161,8 +161,8 @@ for expt_name in ['CTCF', 'ATF2']:
             pred = utils.get_predictions(robust_cnn, data_module.x_test, batch_size=100)
             baseline_results = utils.evaluate_model(data_module.y_test, pred, task='binary')   
 
-            results['finetune']["auroc"].append(np.nanmean(baseline_results[0]))
-            results['finetune']["aupr"].append(np.nanmean(baseline_results[1])) 
+            results['standard']["auroc"].append(np.nanmean(baseline_results[0]))
+            results['standard']["aupr"].append(np.nanmean(baseline_results[1])) 
 
 
         # save results

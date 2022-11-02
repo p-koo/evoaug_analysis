@@ -18,7 +18,7 @@ filepath = os.path.join(data_path, expt_name + '_data.h5')
 data_module = utils.H5DataModule(filepath, batch_size=100, lower_case=False)
 
 
-output_dir = '../results/model_weights/deepstarr'
+output_dir = '../results/deepstarr'
 utils.make_directory(output_dir)
 
 num_trials = 5 
@@ -66,7 +66,7 @@ for trial in range(num_trials):
     trial_results.append(results)
 
 # save results
-with open(os.path.join(output_dir, 'deepstarr_baseline.pickle'), 'wb') as fout:
+with open(os.path.join(output_dir, expt_name+'_baseline.pickle'), 'wb') as fout:
     cPickle.dump(trial_results, fout)
 
 

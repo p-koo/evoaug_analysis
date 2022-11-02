@@ -12,7 +12,7 @@ from model_zoo import CNN
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-output_dir = '../results/model_weights/chipseq'
+output_dir = '../results/chipseq'
 utils.make_directory(output_dir)
 
 

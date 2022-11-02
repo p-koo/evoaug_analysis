@@ -17,7 +17,7 @@ data_path = '../data'
 filepath = os.path.join(data_path, expt_name + '_data.h5')
 data_module = utils.H5DataModule(filepath, batch_size=100, lower_case=False)
 
-output_dir = '../results/model_weights/deepstarr'
+output_dir = '../results/deepstarr'
 utils.make_directory(output_dir)
 
 num_trials = 5 
