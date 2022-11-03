@@ -35,17 +35,16 @@ numpy 1.21.6
 
 The code to reproduce the analyses is in the directory: analysis. Data can be downloaded into analysis/data by running download_data.sh. The main analyses for Basset, DeepSTARR, and ChIP-seq is in analysis/main. The parameter sweeps used to determine optimal settings can be found in analysis/supp. All results are stored in analysis/results. 
 
+
 #### Examples on Google Colab:
 
 DeepSTARR analysis:
-```
-https://colab.research.google.com/drive/1a2fiRPBd1xvoJf0WNiMUgTYiLTs1XETf?usp=sharing
-```
+- Example analysis: https://colab.research.google.com/drive/1a2fiRPBd1xvoJf0WNiMUgTYiLTs1XETf?usp=sharing
+- Example load model and perform attribution analysis: https://colab.research.google.com/drive/11DVkhyX2VhhCSbCGkW3XjviMxTufBvZh?usp=sharing
 
 ChIP-seq analysis:
-```
-https://colab.research.google.com/drive/1GZ8v4Tq3LQMZI30qvdhF7ZW6Kf5GDyKX?usp=sharing
-```
+- Example analysis: https://colab.research.google.com/drive/1GZ8v4Tq3LQMZI30qvdhF7ZW6Kf5GDyKX?usp=sharing
+
 
 Basset analysis: data is too large for colab =(
 
