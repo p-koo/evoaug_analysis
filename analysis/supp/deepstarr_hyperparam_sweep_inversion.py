@@ -22,7 +22,7 @@ expt_name += '_inv'
 output_dir = '../results/deepSTARR_hyperparm_sweep'
 utils.make_directory(output_dir)
 
-hard_sweep = [1, 2, 3, 4, 5]
+invert_max_range = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 num_trials = 5 
 
 all_aug_results = {}
