@@ -1,6 +1,6 @@
 # EvoAug Analysis
 
-This repository performs the analysis from "Evolution-inspired augmentations improve deep learning for regulatory genomics" by Nicholas Keone Lee, Ziqi (Amber) Tang, Shushan Toneyan, and Peter K Koo. 
+This repository performs the analysis from "Evolution-inspired augmentations improve deep learning for regulatory genomics" by Nicholas Keone Lee, Ziqi (Amber) Tang, Shushan Toneyan, and Peter K Koo. Code in this repository is shared under the MIT License. For additional information, see the [EvoAug repository](https://github.com/p-koo/evoaug) and EvoAug documentation on [EvoAug.ReadTheDocs.io](https://evoaug.readthedocs.io/en/latest/index.html).
 
 For questions, email: koo@cshl.edu
 
@@ -30,6 +30,7 @@ logomaker 0.8
 numpy 1.21.6
 ```
 
+Note: For newer versions of pytorch_lightning, the pl.Trainer call will need to be modified accordingly as the arguments for gpus has changed from version 1.7.
 
 #### Reproducible analyses:
 
